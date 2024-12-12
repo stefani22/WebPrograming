@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.WebConnection;
 import mk.ukim.finki.wp.labb.model.Song;
 import mk.ukim.finki.wp.labb.service.Impl.SongServiceI;
 import org.thymeleaf.context.WebContext;
@@ -15,7 +16,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "SongListServlet", urlPatterns = "/servlet/listSongs")
+@WebServlet(name="songServlet", urlPatterns = "/servlet/listSongs")
 public class SongListServlet extends HttpServlet {
     private final SpringTemplateEngine templateEngine;
     private final SongServiceI songService;
@@ -27,16 +28,21 @@ public class SongListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Song> songList = songService.listSongs();
-
-        IWebExchange iWebExchange = JakartaServletWebApplication
-                .buildApplication(req.getServletContext())
-                .buildExchange(req, resp);
+        IWebExchange iWebExchange= JakartaServletWebApplication.buildApplication(req.getServletContext()).
+                buildExchange(req,resp);
         WebContext context = new WebContext(iWebExchange);
-        context.setVariable("songList", songList);
-        templateEngine.process("listSongs.html", context, resp.getWriter());
+        context.setVariable("songs", songService.listSongs());
+        this.templateEngine.process("listSongs.html",context, resp.getWriter());
     }
 
-
-
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String text=req.getParameter("searchSong");
+        List<Song> songsByText=this.songService.findSongByText(text);
+        IWebExchange iWebExchange= JakartaServletWebApplication.buildApplication(req.getServletContext()).
+                buildExchange(req,resp);
+        WebContext context = new WebContext(iWebExchange);
+        context.setVariable("songs", songsByText);
+        this.templateEngine.process("listSongs.html",context, resp.getWriter());
+    }
 }

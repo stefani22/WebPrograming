@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.labb.repository;
+package mk.ukim.finki.wp.labb.repository.impl;
 
 
 import mk.ukim.finki.wp.labb.bootstrap.DataHolder;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class AlbumRepository {
+public class AlbumRepositoryX {
     public List<Album> findAll(){
         return DataHolder.albumList;
     }

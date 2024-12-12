@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.labb.repository;
+package mk.ukim.finki.wp.labb.repository.impl;
 
 import mk.ukim.finki.wp.labb.bootstrap.DataHolder;
 import mk.ukim.finki.wp.labb.model.Artist;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class SongRepository {
+public class SongRepositoryX {
     public List<Song> findAll() {
         return DataHolder.songs;
     }
@@ -19,7 +19,7 @@ public class SongRepository {
 
     public Artist addArtistToSong(Song song, Artist artist) {
         for (Song s : DataHolder.songs) {
-            if (s.getTrackId().equals(song.getTrackId())) {
+            if (s.getTrackId() == (song.getTrackId())) {
                 s.addPerformer(artist);
                 return artist;
             }

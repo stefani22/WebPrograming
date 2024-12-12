@@ -25,7 +25,7 @@ public class SongDetailsController {
     @GetMapping
     public String songDetails(@RequestParam String trackID, @RequestParam String artistID, Model model) {
         Song song = songService.findByTrackId(trackID);
-        Artist artist = artistService.findById(Long.valueOf(artistID));
+        Artist artist = artistService.findById(Long.valueOf(artistID)).orElse(null);
         songService.addArtistToSong(artist, song);
         model.addAttribute("song", song);
 

@@ -1,7 +1,8 @@
 package mk.ukim.finki.wp.labb.service.Impl;
 
 import mk.ukim.finki.wp.labb.model.Album;
-import mk.ukim.finki.wp.labb.repository.AlbumRepository;
+import mk.ukim.finki.wp.labb.repository.impl.AlbumRepositoryX;
+import mk.ukim.finki.wp.labb.repository.jpa.AlbumRepository;
 import mk.ukim.finki.wp.labb.service.AlbumService;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,10 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Optional<Album> findById(Long id) {
         return albumRepository.findById(id);
+    }
+
+    @Override
+    public List<Album> findByName(String title) {
+        return albumRepository.findByName(title);
     }
 }
